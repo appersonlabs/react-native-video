@@ -23,6 +23,11 @@ export default class Video extends Component {
     NativeModules.VideoManager.getFrames(callback || function() {});
   }
 
+
+  getFrameForSeconds = (seconds, callback) => {
+    NativeModules.VideoManager.getFrameForSeconds(seconds, callback || function() {});
+  }
+
   presentFullscreenPlayer = () => {
     this.setNativeProps({ fullscreen: true });
   };

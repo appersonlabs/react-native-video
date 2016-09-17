@@ -5,7 +5,8 @@
 #import "RCTVideoPlayerViewController.h"
 #import "RCTVideoPlayerViewControllerDelegate.h"
 
-typedef void(^ImageExtractionHandler)(int percentOfCompletion, NSArray *savedImagesPathArray, NSError *err);
+typedef void(^ImagesExtractionHandler)(int percentOfCompletion, NSArray *savedImagesPathArray, NSError *err);
+typedef void(^ImageExtractionHandler)(NSString *savedImagePath, NSError *err);
 
 @class RCTEventDispatcher;
 
@@ -15,6 +16,8 @@ typedef void(^ImageExtractionHandler)(int percentOfCompletion, NSArray *savedIma
 
 - (AVPlayerViewController*)createPlayerViewController:(AVPlayer*)player withPlayerItem:(AVPlayerItem*)playerItem;
 
-- (NSArray *)getFrames:(ImageExtractionHandler)completionHandler;
+- (NSArray *)getFrames:(ImagesExtractionHandler)completionHandler;
+
+- (NSString *)getFrameForSeconds:(float)seekTime withHandler:(ImageExtractionHandler)completionHandler;
 
 @end

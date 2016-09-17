@@ -73,6 +73,12 @@ RCT_EXPORT_METHOD(getFrames:(RCTResponseSenderBlock)callback) {
     
 }
 
+RCT_EXPORT_METHOD(getFrameForSeconds:(float)seconds withHandler:(RCTResponseSenderBlock)callback) {
+    [_player getFrameForSeconds:seconds withHandler:^(NSString *result, NSError *error) {
+        callback(@[[NSNull null], result]);
+    }];
+}
+
 - (NSDictionary *)constantsToExport
 {
     return @{

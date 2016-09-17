@@ -522,7 +522,7 @@ static NSString *const playbackRate = @"rate";
 
 
 
-- (NSArray *)getFrames:(ImageExtractionHandler)completionHandler
+- (NSArray *)getFrames:(ImagesExtractionHandler)completionHandler
 {
     
     ////////////// Create cache
@@ -594,6 +594,46 @@ static NSString *const playbackRate = @"rate";
     
     
     return thumbnailImages;
+    
+}
+
+- (NSString *)getFrameForSeconds:(float)seekTime withHandler:(ImageExtractionHandler)completionHandler;
+{
+    ////////////// Create cache
+    NSString *cacheDirectory = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    
+    NSString *newDirectory = [cacheDirectory stringByAppendingPathComponent:[[_videoURL absoluteString] lastPathComponent]];
+    
+    BOOL isDir = NO;
+    NSError *error;
+    if ([[NSFileManager defaultManager] fileExistsAtPath:newDirectory isDirectory:&isDir] && isDir == NO)
+    {
+        [[NSFileManager defaultManager] removeItemAtPath:newDirectory error:&error];
+    }
+    
+    [[NSFileManager defaultManager]createDirectoryAtPath:newDirectory withIntermediateDirectories:NO attributes:nil error:&error];
+    /////////////
+    
+    AVAssetImageGenerator *imageGenerator = [[AVAssetImageGenerator alloc]initWithAsset:_playerItem.asset];
+    
+    imageGenerator.requestedTimeToleranceBefore = kCMTimeZero;
+    imageGenerator.requestedTimeToleranceAfter = kCMTimeZero;
+    
+    CMTime time = CMTimeMakeWithSeconds(seekTime, NSEC_PER_SEC);
+    CGImageRef imageRef = [imageGenerator copyCGImageAtTime:time actualTime:NULL error:NULL];
+    UIImage *thumbnail = [UIImage imageWithCGImage:imageRef];
+    CGImageRelease(imageRef);  // CGImageRef won't be released by ARC
+
+    NSData *data = UIImageJPEGRepresentation(thumbnail, 1.0);
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+    
+    NSString *fullPath = [newDirectory stringByAppendingPathComponent:@"single-frame.png"];
+    [fileManager createFileAtPath:fullPath contents:data attributes:nil];
+    
+    completionHandler(fullPath, [NSNull null]);
+
+    return fullPath;
     
 }
 
