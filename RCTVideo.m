@@ -192,6 +192,7 @@ static NSString *const playbackRate = @"rate";
                                                    @"playableDuration": [self calculatePlayableDuration],
                                                    @"atValue": [NSNumber numberWithLongLong:currentTime.value],
                                                    @"atTimescale": [NSNumber numberWithInt:currentTime.timescale],
+                                                   @"fps": [self playerItemFPS],
                                                    @"target": self.reactTag,
                                                    @"seekableDuration": [NSNumber numberWithFloat:CMTimeGetSeconds([self playerItemSeekableTimeRange].duration)],
                                                    }];
@@ -221,6 +222,18 @@ static NSString *const playbackRate = @"rate";
         }
     }
     return [NSNumber numberWithInteger:0];
+}
+
+- (NSNumber *)playerItemFPS
+{
+    AVPlayerItem *playerItem = [_player currentItem];
+    if (playerItem.status == AVPlayerItemStatusReadyToPlay)
+    {
+        AVAssetTrack *videoTrack = [[playerItem.asset tracksWithMediaType:AVMediaTypeVideo] objectAtIndex:0];
+        return [NSNumber numberWithFloat:[videoTrack nominalFrameRate]];
+    }
+    
+    return [NSNumber numberWithFloat:0.0f];
 }
 
 - (void)addPlayerItemObservers
