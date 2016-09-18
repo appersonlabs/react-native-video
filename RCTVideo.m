@@ -616,6 +616,7 @@ static NSString *const playbackRate = @"rate";
     
     AVAssetImageGenerator *imageGenerator = [[AVAssetImageGenerator alloc]initWithAsset:_playerItem.asset];
     
+    imageGenerator.appliesPreferredTrackTransform = YES;
     imageGenerator.requestedTimeToleranceBefore = kCMTimeZero;
     imageGenerator.requestedTimeToleranceAfter = kCMTimeZero;
     
