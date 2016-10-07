@@ -20,4 +20,6 @@ typedef void(^ImageExtractionHandler)(NSString *savedImagePath, NSError *err);
 
 - (NSString *)getFrameForSeconds:(float)seekTime withHandler:(ImageExtractionHandler)completionHandler;
 
+- (NSString *)getThumbForSeconds:(float)seekTime height:(int)height width:(int)width withHandler:(ImageExtractionHandler)completionHandler;
+
 @end

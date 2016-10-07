@@ -79,6 +79,12 @@ RCT_EXPORT_METHOD(getFrameForSeconds:(float)seconds withHandler:(RCTResponseSend
     }];
 }
 
+RCT_EXPORT_METHOD(getThumbForSeconds:(float)seconds height:(int)height width:(int)width withHandler:(RCTResponseSenderBlock)callback) {
+    [_player getThumbForSeconds:seconds height:(int)height width:(int)width withHandler:^(NSString *result, NSError *error) {
+        callback(@[[NSNull null], result]);
+    }];
+}
+
 - (NSDictionary *)constantsToExport
 {
     return @{
