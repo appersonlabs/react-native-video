@@ -1,6 +1,5 @@
 package com.brentvatne.react;
 
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Handler;
 import android.util.Log;
@@ -15,6 +14,9 @@ import com.facebook.react.uimanager.ThemedReactContext;
 import com.facebook.react.uimanager.events.RCTEventEmitter;
 import com.yqritc.scalablevideoview.ScalableType;
 import com.yqritc.scalablevideoview.ScalableVideoView;
+
+//import net.protyposis.android.mediaplayer.MediaPlayer;
+import android.media.MediaPlayer;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -60,6 +62,7 @@ public class ReactVideoView extends ScalableVideoView implements MediaPlayer.OnP
     public static final String EVENT_PROP_WIDTH = "width";
     public static final String EVENT_PROP_HEIGHT = "height";
     public static final String EVENT_PROP_ORIENTATION = "orientation";
+    public static final String EVENT_PROP_FPS = "fps";
 
     public static final String EVENT_PROP_ERROR = "error";
     public static final String EVENT_PROP_WHAT = "what";
@@ -185,14 +188,10 @@ public class ReactVideoView extends ScalableVideoView implements MediaPlayer.OnP
                     Uri parsedUrl = Uri.parse(uriString);
                     setDataSource(mThemedReactContext, parsedUrl);
                 } else {
-                    setDataSource(uriString);
+                    throw new Exception("need a uri and context");
                 }
             } else {
-                setRawData(mThemedReactContext.getResources().getIdentifier(
-                        uriString,
-                        "raw",
-                        mThemedReactContext.getPackageName()
-                ));
+                throw new Exception("need a uri and context");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -311,6 +310,7 @@ public class ReactVideoView extends ScalableVideoView implements MediaPlayer.OnP
         event.putDouble(EVENT_PROP_DURATION, mVideoDuration / 1000.0);
         event.putDouble(EVENT_PROP_CURRENT_TIME, mp.getCurrentPosition() / 1000.0);
         event.putMap(EVENT_PROP_NATURALSIZE, naturalSize);
+        event.putDouble(EVENT_PROP_FPS, 30.0);
         // TODO: Actually check if you can.
         event.putBoolean(EVENT_PROP_FAST_FORWARD, true);
         event.putBoolean(EVENT_PROP_SLOW_FORWARD, true);
@@ -382,7 +382,7 @@ public class ReactVideoView extends ScalableVideoView implements MediaPlayer.OnP
             event.putDouble(EVENT_PROP_SEEK_TIME, msec / 1000.0);
             mEventEmitter.receiveEvent(getId(), Events.EVENT_SEEK.toString(), event);
 
-            super.seekTo(msec);
+            mMediaPlayer.seekTo(msec);
             if (isCompleted && mVideoDuration != 0 && msec < mVideoDuration) {
                 isCompleted = false;
             }

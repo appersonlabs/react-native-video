@@ -1,10 +1,18 @@
 package com.brentvatne.react;
 
+import android.graphics.Bitmap;
+import android.media.MediaMetadataRetriever;
+import android.os.Environment;
+import android.util.Log;
+
 import com.brentvatne.react.ReactVideoView.Events;
 import com.facebook.react.bridge.Arguments;
+import com.facebook.react.bridge.Callback;
+import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.common.MapBuilder;
+import com.facebook.react.uimanager.IllegalViewOperationException;
 import com.facebook.react.uimanager.annotations.ReactProp;
 import com.facebook.react.uimanager.SimpleViewManager;
 import com.facebook.react.uimanager.ThemedReactContext;
@@ -12,6 +20,10 @@ import com.facebook.react.uimanager.events.RCTEventEmitter;
 import com.yqritc.scalablevideoview.ScalableType;
 
 import javax.annotation.Nullable;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Map;
 
 public class ReactVideoViewManager extends SimpleViewManager<ReactVideoView> {
@@ -117,5 +129,10 @@ public class ReactVideoViewManager extends SimpleViewManager<ReactVideoView> {
     @ReactProp(name = PROP_CONTROLS, defaultBoolean = false)
     public void setControls(final ReactVideoView videoView, final boolean controls) {
         videoView.setControls(controls);
+    }
+
+    @ReactMethod
+    public void seek(final ReactVideoView videoView, final float seek) {
+        videoView.seekTo(Math.round(seek * 1000.0f));
     }
 }
