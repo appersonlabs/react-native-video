@@ -19,16 +19,20 @@ export default class Video extends Component {
     this.setNativeProps({ seek: time });
   };
 
+  getFPS = (uri, callback) => {
+    NativeModules.VideoManager.getFPS(uri, callback || function() {});
+  }
+
   getFrames = (callback) => {
     NativeModules.VideoManager.getFrames(callback || function() {});
   }
 
-  getFrameForSeconds = (seconds, callback) => {
-    NativeModules.VideoManager.getFrameForSeconds(seconds, callback || function() {});
+  getFrameForSeconds = (seconds, uri, callback) => {
+    NativeModules.VideoManager.getFrameForSeconds(seconds, uri, callback || function() {});
   }
   
-  getThumbForSeconds = (seconds, height, width, callback) => {
-    NativeModules.VideoManager.getThumbForSeconds(seconds, height, width, callback || function() {});
+  getThumbForSeconds = (seconds, uri, height, width, callback) => {
+    NativeModules.VideoManager.getThumbForSeconds(seconds, uri, height, width, callback || function() {});
   }
 
   presentFullscreenPlayer = () => {

@@ -73,13 +73,13 @@ RCT_EXPORT_METHOD(getFrames:(RCTResponseSenderBlock)callback) {
     
 }
 
-RCT_EXPORT_METHOD(getFrameForSeconds:(float)seconds withHandler:(RCTResponseSenderBlock)callback) {
+RCT_EXPORT_METHOD(getFrameForSeconds:(float)seconds uri:(NSString *)uri withHandler:(RCTResponseSenderBlock)callback) {
     [_player getFrameForSeconds:seconds withHandler:^(NSString *result, NSError *error) {
         callback(@[[NSNull null], result]);
     }];
 }
 
-RCT_EXPORT_METHOD(getThumbForSeconds:(float)seconds height:(int)height width:(int)width withHandler:(RCTResponseSenderBlock)callback) {
+RCT_EXPORT_METHOD(getThumbForSeconds:(float)seconds uri:(NSString *)uri height:(int)height width:(int)width withHandler:(RCTResponseSenderBlock)callback) {
     [_player getThumbForSeconds:seconds height:(int)height width:(int)width withHandler:^(NSString *result, NSError *error) {
         callback(@[[NSNull null], result]);
     }];

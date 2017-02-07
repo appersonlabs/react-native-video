@@ -578,7 +578,7 @@ static NSString *const playbackRate = @"rate";
             NSFileManager *fileManager = [NSFileManager defaultManager];
             NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
             
-            NSString *fullPath = [newDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%i.png", i]];
+            NSString *fullPath = [newDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%i.jpg", i]];
             [fileManager createFileAtPath:fullPath contents:data attributes:nil];
             
             [thumbnailImages addObject:fullPath];
@@ -629,7 +629,7 @@ static NSString *const playbackRate = @"rate";
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
     
-    NSString *fullPath = [newDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", [[NSUUID UUID] UUIDString]]];
+    NSString *fullPath = [newDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.jpg", [[NSUUID UUID] UUIDString]]];
     [fileManager createFileAtPath:fullPath contents:data attributes:nil];
     
     completionHandler(fullPath, [NSNull null]);
@@ -671,7 +671,7 @@ static NSString *const playbackRate = @"rate";
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
     
-    NSString *fullPath = [newDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", [[NSUUID UUID] UUIDString]]];
+    NSString *fullPath = [newDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.jpg", [[NSUUID UUID] UUIDString]]];
     [fileManager createFileAtPath:fullPath contents:data attributes:nil];
     
     completionHandler(fullPath, [NSNull null]);
